@@ -32,18 +32,20 @@ df.to_csv('dataset.csv', encoding='utf-8')
 print(df)
 # pd.set_option("display.max_columns",None)
 
-chosen_bond = random.randint(0, 10) # User chooses in Telegram
+chosen_bond = unique_names[random.randint(0, 9)] # User chooses in Telegram
 print(chosen_bond)
 current_bond = df[df["SHORTNAME"] == chosen_bond]
 end_profit = float(current_bond["BUYBACKPRICE"]) - float(
     current_bond["PREVWAPRICE"])  # рассчитываем прибыль после выкупа облигации
 end_profit = end_profit * 0.87 if end_profit > 0 else end_profit * 1  # учтем налог на прибыль
 pd.set_option("display.max_columns", None)
-days_befor_payback = int((datetime.strptime(str(current_bond['BUYBACKDATE'][current_bond.index[0]]),
+days_befor_payback = int((datetime.strptime(str(current_bond['BUYBACKDATE'][current_bond.index[0]]),us
                                             "%Y-%m-%d") - datetime.strptime(str(datetime.now().date()),
                                                                             "%Y-%m-%d")).days)
 from math import floor
-price= current_bond["PREVWAPRICE"]
+price= current_bond["PREVWAPRICE"][current_bond.index[0]]
+print(price)
+print(type(price))
 num_coupons = floor(days_befor_payback / current_bond["COUPONPERIOD"][current_bond.index[0]])
 сoupon_profit = current_bond["COUPONVALUE"][current_bond.index[0]] * num_coupons
 total_profit=end_profit + сoupon_profit
