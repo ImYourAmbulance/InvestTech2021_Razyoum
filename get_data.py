@@ -39,13 +39,11 @@ end_profit = float(current_bond["BUYBACKPRICE"]) - float(
     current_bond["PREVWAPRICE"])  # рассчитываем прибыль после выкупа облигации
 end_profit = end_profit * 0.87 if end_profit > 0 else end_profit * 1  # учтем налог на прибыль
 pd.set_option("display.max_columns", None)
-days_befor_payback = int((datetime.strptime(str(current_bond['BUYBACKDATE'][current_bond.index[0]]),us
+days_befor_payback = int((datetime.strptime(str(current_bond['BUYBACKDATE'][current_bond.index[0]]),
                                             "%Y-%m-%d") - datetime.strptime(str(datetime.now().date()),
                                                                             "%Y-%m-%d")).days)
 from math import floor
 price= current_bond["PREVWAPRICE"][current_bond.index[0]]
-print(price)
-print(type(price))
 num_coupons = floor(days_befor_payback / current_bond["COUPONPERIOD"][current_bond.index[0]])
 сoupon_profit = current_bond["COUPONVALUE"][current_bond.index[0]] * num_coupons
 total_profit=end_profit + сoupon_profit
